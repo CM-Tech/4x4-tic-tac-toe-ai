@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+        <script src="brain-0.6.3.js"></script>
+
+        <style>
+            .box {
+                width:100px;
+                height:100px;
+                display:table-cell;
+                background:white;
+                border:1px solid black;
+                margin:0px;
+                text-align:center;
+            }
+            .row {
+                margin:0px;
+            }
+            #board {
+                background:black;
+                margin:0px;
+                display:inline-block;
+            }
+            .box .glyphicon {
+                display:none;
+                font-size:90px;
+            }
+            .box[value="1"] .glyphicon-remove {
+                display:initial;
+            }
+            .box[value="2"] .glyphicon-record {
+                display:initial;
+            }
+        </style>
+        <title>Artificial Intel
+        </title>
+    </head>
+
+    <body>
+        <textarea class="data">[]</textarea>
+        <script src="tictac.js"></script>
+        <div id="board">
+            <div class="row">
+                <div class="box" id="x1y1" value="0">
+                     <span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x2y1" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x3y1" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x4y1" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="box" id="x1y2" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x2y2" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x3y2" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x4y2" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="box" id="x1y3" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x2y3" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x3y3" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x4y3" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="box" id="x1y4" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x2y4" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x3y4" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+                <div class="box" id="x4y4" value="0"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-record"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </body>
+    <script>
+        $(".box").click(function() {
+            var cur = [];
+            var i = 0;
+            for (var x = 1; x < 5; x++) {
+                cur[x - 1] = [];
+                for (var y = 1; y < 5; y++) {
+                    cur[x - 1][y - 1] = parseInt($("#board #x" + x + "y" + y).attr("value")) / 2;
+                    i++;
+                }
+            }
+            if (!isWin(cur)) {
+                //if(turn%2==0){
+                if ($(this).attr("value") != 2 && $(this).attr("value") != 1) {
+                    $(this).attr("value", 2);
+                    $(this).addClass("x");
+                    i = 0;
+                    for (var x = 1; x < 5; x++) {
+                        cur[x - 1] = [];
+                        for (var y = 1; y < 5; y++) {
+
+                            cur[x - 1][y - 1] = parseInt($("#board #x" + x + "y" + y).attr("value")) / 2;
+                            i++;
+                        }
+                    }
+                    if (!isWin(cur)) {
+                        pickPos1();
+                        /*{
+                                x: (parseInt($(this).attr('id').substr(1, 2)) - 1) / 3,
+                                y: (parseInt($(this).attr('id').substr(3, 4)) - 1) / 3
+                            }*/
+                    } else {
+                        //$("#board").html( $("#board-hidden").html());
+                    }
+                }
+                // turn++;
+                //}
+            } else {
+                $(".box").attr("value", 0);
+                i = 0;
+                for (var x = 1; x < 5; x++) {
+                    cur[x - 1] = [];
+                    for (var y = 1; y < 5; y++) {
+
+                        cur[x - 1][y - 1] = parseInt($("#board #x" + x + "y" + y).attr("value")) / 2;
+                        i++;
+                    }
+
+
+                }
+            }});
+    </script>
+
+</html>
